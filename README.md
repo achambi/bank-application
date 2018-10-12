@@ -56,7 +56,7 @@ Esta aplicacion es un ejemplo pequeño de una aplicacion bancaria que tiene los 
             <td>dolares</td>
             <td>debito</td>
             <td>bolivianos</td>
-            <td>Redondeo(Monto/6.94)</td>
+            <td>Redondeo(Monto/6.84)</td>
         </tr>
         <tr>
             <td>dolares</td>
@@ -83,7 +83,7 @@ Esta aplicacion es un ejemplo pequeño de una aplicacion bancaria que tiene los 
                 <td>bolivianos</td>
                 <td>abono</td>
                 <td>dolares</td>
-                <td>Redondeo(Monto*6.94)</td>
+                <td>Redondeo(Monto*6.84)</td>
             </tr>
             <tr>
                 <td>dolares</td>
