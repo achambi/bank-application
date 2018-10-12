@@ -99,4 +99,4 @@ Esta aplicacion es un ejemplo pequeño de una aplicacion bancaria que tiene los 
             </tr>
         </table>
    
-    * TRANSFERENCIA ENTRE CUENTAS (TERCEROS): Una transferencia entre cuentas bancarias debe realizar dos movimientos uno de debito en al cuenta origen y otro de abono en la cuenta destino. bajo los criterios descritos en el metodo de creacion de movimiento
+    * <b>TRANSFERENCIA ENTRE CUENTAS (TERCEROS):</b> Una transferencia entre cuentas bancarias debe realizar dos movimientos uno de debito en al cuenta origen y otro de abono en la cuenta destino. bajo los criterios descritos en el metodo de creacion de movimiento
