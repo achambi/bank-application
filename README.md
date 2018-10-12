@@ -30,8 +30,8 @@ Esta aplicacion es un ejemplo pequeño de una aplicacion bancaria que tiene los 
     * <b>TIPO DE MOVIMIENTO:</b> Unicamente se puede dos tipos de movimientos DEBITO y ABONO (siempre en mayusculas).
     * <b>MONTO: </b> el monto debe ser un numero decimal (positivo o negativo nunca 0) de 10 digitos enteros y 2 decimales.
     
-- <b>METODOS DEL API DE MOVIMIENTOS:
-    * <b>CREACION DE MOVIMIENTO,</b> El movimiento de una cuenta bancaria debe insertar un nuevo registro del movimiento, si el movimiento es un ABONO se debe verificar que el monto del movimiento sea positivo y de ser un DEBITO el monto del movimiento debe ser negativo. Se debe tener en cuenta los tipos de cambios (Nota: tipos de cambio deben ser 6.85 compra y 67.97 venta).
+- <b>METODOS DEL API DE MOVIMIENTOS:</b>
+    * <b>CREACION DE MOVIMIENTO,</b>     El movimiento de una cuenta bancaria debe insertar un nuevo registro del movimiento, si el movimiento es un ABONO se debe verificar que el monto del movimiento sea positivo y de ser un DEBITO el monto del movimiento debe ser negativo. Se debe tener en cuenta los tipos de cambios (Nota: tipos de cambio deben ser 6.85 compra y 67.97 venta).
     <br>
     <table>
         <tr>
