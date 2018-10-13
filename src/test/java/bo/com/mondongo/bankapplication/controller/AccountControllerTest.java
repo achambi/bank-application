@@ -209,9 +209,9 @@ public class AccountControllerTest extends TestCase {
     @Test
     public void getAll() throws Exception {
         List<AccountDTO> accounts = Arrays.asList(
-            new AccountDTO(1, "201-02-000001", "Daenerys Targaryen", 100.00, Currency.BOLIVIANOS),
-            new AccountDTO(2, "202-02-000002", "Robert Baratheon", 200.00, Currency.DOLLARS),
-            new AccountDTO(3, "201-09-000003", "Jhon Snow", 300.00, Currency.DOLLARS)
+            new AccountDTO(1, "201-02-000001", "Daenerys Targaryen", Department.ORURO, 100.00, Currency.BOLIVIANOS),
+            new AccountDTO(2, "202-02-000002", "Robert Baratheon", Department.ORURO, 200.00, Currency.DOLLARS),
+            new AccountDTO(3, "201-09-000003", "Jhon Snow", Department.CHUQUISACA, 300.00, Currency.DOLLARS)
         );
 
         when(accountService.getAll()).thenReturn(accounts);
@@ -222,18 +222,21 @@ public class AccountControllerTest extends TestCase {
                .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(3)))
                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id", Matchers.is(1)))
                .andExpect(MockMvcResultMatchers.jsonPath("$[0].number", Matchers.is("201-02-000001")))
+               .andExpect(MockMvcResultMatchers.jsonPath("$[0].department", Matchers.is("ORURO")))
                .andExpect(MockMvcResultMatchers.jsonPath("$[0].holder", Matchers.is("Daenerys Targaryen")))
                .andExpect(MockMvcResultMatchers.jsonPath("$[0].balance", Matchers.is(100.00)))
                .andExpect(MockMvcResultMatchers.jsonPath("$[0].currency", Matchers.is("BOLIVIANOS")))
 
                .andExpect(MockMvcResultMatchers.jsonPath("$[1].id", Matchers.is(2)))
                .andExpect(MockMvcResultMatchers.jsonPath("$[1].number", Matchers.is("202-02-000002")))
+               .andExpect(MockMvcResultMatchers.jsonPath("$[1].department", Matchers.is("ORURO")))
                .andExpect(MockMvcResultMatchers.jsonPath("$[1].holder", Matchers.is("Robert Baratheon")))
                .andExpect(MockMvcResultMatchers.jsonPath("$[1].balance", Matchers.is(200.00)))
                .andExpect(MockMvcResultMatchers.jsonPath("$[1].currency", Matchers.is("DOLLARS")))
 
                .andExpect(MockMvcResultMatchers.jsonPath("$[2].id", Matchers.is(3)))
                .andExpect(MockMvcResultMatchers.jsonPath("$[2].number", Matchers.is("201-09-000003")))
+               .andExpect(MockMvcResultMatchers.jsonPath("$[2].department", Matchers.is("CHUQUISACA")))
                .andExpect(MockMvcResultMatchers.jsonPath("$[2].holder", Matchers.is("Jhon Snow")))
                .andExpect(MockMvcResultMatchers.jsonPath("$[2].balance", Matchers.is(300.00)))
                .andExpect(MockMvcResultMatchers.jsonPath("$[2].currency", Matchers.is("DOLLARS")));

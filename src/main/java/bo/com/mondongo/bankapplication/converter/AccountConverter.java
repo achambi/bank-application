@@ -13,7 +13,11 @@ public class AccountConverter {
         List<AccountDTO> accountList = new ArrayList<>();
         for (Account account : accounts) {
             accountList.add(
-                new AccountDTO(account.getId(), account.getNumber(), account.getHolder(), account.getBalance(),
+                new AccountDTO(account.getId(),
+                               account.getNumber(),
+                               account.getHolder(),
+                               account.getDepartment(),
+                               account.getBalance(),
                                account.getCurrency()
                 ));
         }

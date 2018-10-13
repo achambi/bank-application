@@ -188,7 +188,8 @@ public class AccountServiceTest {
         List<Account> accountList = new ArrayList<>();
         when(accountRepository.findAll()).thenReturn(accountList);
         List<AccountDTO> accountDTOList = new ArrayList<>();
-        accountDTOList.add(new AccountDTO(1, "10001-1", "Jhon Snow", 200.00, Currency.BOLIVIANOS));
+        accountDTOList.add(
+            new AccountDTO(1, "201-01-000001", "Jhon Snow", Department.LA_PAZ, 200.00, Currency.BOLIVIANOS));
         when(accountConverter.FromAccountToAccountDto(eq(accountList))).thenReturn(accountDTOList);
         List<AccountDTO> accountResponseList = accountService.getAll();
         assertNotNull(accountResponseList);

@@ -8,6 +8,5 @@ import java.util.List;
 
 @Repository("AccountRepository")
 public interface AccountRepository extends JpaRepository<Account, Serializable> {
-    public abstract Account findByNumber(String number);
-    public abstract List<Account> findAll();
+    List<Account> findAll();
 }

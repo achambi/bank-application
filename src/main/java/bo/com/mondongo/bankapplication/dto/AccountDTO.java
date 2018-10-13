@@ -1,6 +1,7 @@
 package bo.com.mondongo.bankapplication.dto;
 
 import bo.com.mondongo.bankapplication.entity.Currency;
+import bo.com.mondongo.bankapplication.entity.Department;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +28,10 @@ public class AccountDTO extends DTOBase implements Serializable {
     private Double balance;
 
     @NotNull
+    @ApiModelProperty(required = true, value = "Department")
+    private Department department;
+
+    @NotNull
     @ApiModelProperty(required = true, value = "Account currency", allowableValues = "BOLIVIANOS, DOLLARS")
     private Currency currency;
 
@@ -35,16 +40,10 @@ public class AccountDTO extends DTOBase implements Serializable {
     @Size(max = 30, message = "The account holder must have a maximum of 30 characters.")
     private String holder;
 
-    public AccountDTO(Integer id, String number, String holder, Double balance, Currency currency) {
+    public AccountDTO(Integer id, String number, String holder, Department department, Double balance, Currency currency) {
         this.id = id;
         this.number = number;
-        this.holder = holder;
-        this.balance = balance;
-        this.currency = currency;
-    }
-
-    public AccountDTO(String number, String holder, Double balance, Currency currency) {
-        this.number = number;
+        this.department = department;
         this.holder = holder;
         this.balance = balance;
         this.currency = currency;
