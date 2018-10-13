@@ -5,7 +5,6 @@ import bo.com.mondongo.bankapplication.dto.MovementInsertDto;
 import bo.com.mondongo.bankapplication.entity.Currency;
 import bo.com.mondongo.bankapplication.entity.Movement;
 import bo.com.mondongo.bankapplication.entity.MovementType;
-import bo.com.mondongo.bankapplication.service.AccountService;
 import bo.com.mondongo.bankapplication.service.MovementService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;

@@ -1,7 +1,6 @@
 package bo.com.mondongo.bankapplication.dto;
 
 import bo.com.mondongo.bankapplication.entity.Currency;
-import bo.com.mondongo.bankapplication.entity.Movement;
 import bo.com.mondongo.bankapplication.entity.MovementType;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -34,5 +33,8 @@ public class MovementInsertDto {
         this.accountId = accountId;
         this.movementType = movementType;
         this.amount = amount;
+    }
+
+    public MovementInsertDto() {
     }
 }
