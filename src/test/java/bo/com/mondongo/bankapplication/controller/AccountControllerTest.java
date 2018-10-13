@@ -206,6 +206,7 @@ public class AccountControllerTest extends TestCase {
 
     //endregion
 
+    //region 3. list accounts
     @Test
     public void getAll() throws Exception {
         List<AccountDTO> accounts = Arrays.asList(
@@ -267,4 +268,6 @@ public class AccountControllerTest extends TestCase {
                .andExpect(MockMvcResultMatchers.jsonPath("$[2].number", Matchers.is("201-09-000003")));
         Mockito.verify(accountService).getSimpleList();
     }
+
+    //endregion
 }
