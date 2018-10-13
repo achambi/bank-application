@@ -8,7 +8,7 @@ import java.io.Serializable;
 @Entity
 @Data
 @Table(name = "movement")
-@ApiModel(value = "movementDTO", description = "Movement model for the documentation")
+@ApiModel(value = "MovementInsertDto", description = "Movement model for the documentation")
 public class Movement extends EntityBase implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -120,66 +120,6 @@ public class AccountServiceTest {
 
     //endregion
 
-    //region 2. update method
-    @Test
-    public void update() {
-        Account account = new Account();
-        account.setBalance(0.00);
-        account.setHolder("Jhon Snow");
-        account.setDepartment(Department.CHUQUISACA);
-        account.setCurrency(Currency.DOLLARS);
-        account.setId(100);
-
-        when(accountRepository.findOne(account.getId())).thenReturn(account);
-
-        Account accountToUpdate = new Account();
-        accountToUpdate.setHolder("Robert Baratheon");
-        accountToUpdate.setDepartment(Department.LA_PAZ);
-        accountToUpdate.setCurrency(Currency.BOLIVIANOS);
-        accountToUpdate.setId(100);
-
-        ResponseEntity responseEntity = accountService.update(accountToUpdate);
-
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        Map result = (Map) (responseEntity.getBody());
-        assertEquals(accountToUpdate.getId(), result.get("id"));
-        assertEquals("201-01-000100", accountToUpdate.getNumber());
-        assertEquals(accountToUpdate.getNumber(), account.getNumber());
-        assertEquals(account.getBalance(), 0.00, 0.00);
-        assertEquals(accountToUpdate.getCurrency(), account.getCurrency());
-        assertEquals(accountToUpdate.getDepartment(), account.getDepartment());
-        assertEquals(accountToUpdate.getHolder(), account.getHolder());
-
-        verify(accountRepository, times(1)).findOne(eq(account.getId()));
-        verify(accountRepository, times(1)).save(eq(account));
-    }
-
-    @Test
-    public void update_CaseBalanceNotZero() {
-        Account account = new Account();
-        account.setBalance(100.00);
-        account.setHolder("Jhon Snow");
-        account.setDepartment(Department.CHUQUISACA);
-        account.setCurrency(Currency.DOLLARS);
-        account.setId(1);
-
-        when(accountRepository.findOne(account.getId())).thenReturn(account);
-
-        Account accountToUpdate = new Account();
-        accountToUpdate.setHolder("Robert Baratheon");
-        accountToUpdate.setDepartment(Department.LA_PAZ);
-        accountToUpdate.setCurrency(Currency.BOLIVIANOS);
-        accountToUpdate.setId(1);
-
-        ResponseEntity responseEntity = accountService.update(accountToUpdate);
-
-        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
-        Map result = (Map) (responseEntity.getBody());
-        assertEquals("Account balance is not zero", result.get("message"));
-        verify(accountRepository, times(1)).findOne(eq(account.getId()));
-    }
-
-    //endregion
     @Test
     public void listAll() {
         List<Account> accountList = new ArrayList<>();

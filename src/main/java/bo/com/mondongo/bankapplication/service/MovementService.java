@@ -3,6 +3,7 @@ package bo.com.mondongo.bankapplication.service;
 import bo.com.mondongo.bankapplication.entity.Account;
 import bo.com.mondongo.bankapplication.entity.Currency;
 import bo.com.mondongo.bankapplication.entity.Movement;
+import bo.com.mondongo.bankapplication.entity.MovementType;
 import bo.com.mondongo.bankapplication.repository.AccountRepository;
 import bo.com.mondongo.bankapplication.repository.MovementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +29,26 @@ public class MovementService {
     public ResponseEntity create(Movement movement) {
         Account account = accountRepository.findOne(movement.getAccount().getId());
         movement.setAccount(account);
-        if (movement.getCurrency().equals(account.getCurrency())) {
-            account.setBalance(account.getBalance() + movement.getAmount());
-        } else if (Currency.DOLLARS.equals(movement.getCurrency()) &&
-            Currency.BOLIVIANOS.equals(account.getCurrency())) {
-            account.setBalance(account.getBalance() + (movement.getAmount()*6.97));
-        } else if (Currency.BOLIVIANOS.equals(movement.getCurrency()) &&
-            Currency.DOLLARS.equals(account.getCurrency())) {
-            account.setBalance(account.getBalance() + (movement.getAmount()/6.84));
+        if (MovementType.DEBIT.equals(movement.getMovementType())) {
+            if (movement.getCurrency().equals(account.getCurrency())) {
+                account.setBalance(account.getBalance() + movement.getAmount());
+            } else if (Currency.DOLLARS.equals(movement.getCurrency()) &&
+                Currency.BOLIVIANOS.equals(account.getCurrency())) {
+                account.setBalance(account.getBalance() + (movement.getAmount()*6.97));
+            } else if (Currency.BOLIVIANOS.equals(movement.getCurrency()) &&
+                Currency.DOLLARS.equals(account.getCurrency())) {
+                account.setBalance(account.getBalance() + (movement.getAmount()/6.84));
+            }
+        } else if (MovementType.CREDIT.equals(movement.getMovementType())) {
+            if (movement.getCurrency().equals(account.getCurrency())) {
+                account.setBalance(account.getBalance() + movement.getAmount());
+            } else if (Currency.DOLLARS.equals(movement.getCurrency()) &&
+                Currency.BOLIVIANOS.equals(account.getCurrency())) {
+                account.setBalance(account.getBalance() + (movement.getAmount()*6.84));
+            } else if (Currency.BOLIVIANOS.equals(movement.getCurrency()) &&
+                Currency.DOLLARS.equals(account.getCurrency())) {
+                account.setBalance(account.getBalance() + (movement.getAmount()/6.97));
+            }
         }
         accountRepository.save(account);
         movement = movementRepository.save(movement);

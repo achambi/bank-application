@@ -65,27 +65,6 @@ public class AccountService {
         }
     }
 
-    @Transactional
-    public ResponseEntity update(Account account) {
-        Map<String, Object> response = new HashMap<>();
-        Account currentAccount = accountRepository.findOne(account.getId());
-        if (currentAccount.getBalance() > 0) {
-            response.put("message", "Account balance is not zero");
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        }
-
-        account.createAccountNumber();
-        currentAccount.setHolder(account.getHolder());
-        currentAccount.setCurrency(account.getCurrency());
-        currentAccount.setDepartment(account.getDepartment());
-        currentAccount.setNumber(account.getNumber());
-        currentAccount.setEditedAt(account.getEditedAt());
-
-        accountRepository.save(currentAccount);
-        response.put("id", account.getId());
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
     public List<AccountDTO> getAll() {
         return accountConverter.FromAccountToAccountDto(accountRepository.findAll());
     }

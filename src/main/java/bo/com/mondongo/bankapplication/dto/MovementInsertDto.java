@@ -2,15 +2,20 @@ package bo.com.mondongo.bankapplication.dto;
 
 import bo.com.mondongo.bankapplication.entity.Currency;
 import bo.com.mondongo.bankapplication.entity.MovementType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Getter
 @Setter
-public class MovementInsertDto {
+public class MovementInsertDto extends DTOBase implements Serializable {
+    @JsonIgnore
+    private Integer id = null;
+
     @NotNull
     @ApiModelProperty(required = true, value = "Account currency", allowableValues = "BOLIVIANOS, DOLLARS")
     private Currency currency;

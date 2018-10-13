@@ -18,8 +18,7 @@ Esta aplicacion es un ejemplo pequeño de una aplicacion bancaria que tiene los 
     * <b>SALDO: </b> Un numero decimal de maximo 2 decimales y 10 enteros que expresa el saldo en la cuenta bancaria siempre debe ser mayor o igual a 0.
     
 - <b>METODOS DEL API DE CUENTAS:</b> La administracion de las cuentas bancarias debe contar con API que se pueda realizar los siguientes metodos: 
-    * <b>Almacenar cuentas,</b> Se puede almacenar con 0 de saldo o con un saldo inicial que debe estar registrado como un movimiento de ABONO. 
-    * <b>Modificacion de cuentas,</b> la modificacion de cuentas se podra realizar unicamente de aquellas cuentas que no tengan movimientos bancarios. 
+    * <b>Almacenar cuentas,</b> Se puede almacenar con 0 de saldo o con un saldo inicial que debe estar registrado como un movimiento de ABONO.
     * <b>Eliminacion de cuentas,</b> Al eliminar la cuenta no se eliminan fisicamente sino que se debe realizar un borrado logico.
     * <b>Listado de cuentas,</b> El listado de cuentas debe contener todos los campos (id, Numero de cuenta, Departamento, Nombre del titular, Moneda, Saldo).
     * <b>Listado Simple, </b> El listado de cuentas simple se hara para la utilizacion en combo box con los siguientes campos (id, numero de cuenta).
