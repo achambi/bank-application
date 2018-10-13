@@ -53,4 +53,88 @@ public class MovementControllerTest {
                .andExpect(status().isOk());
         Mockito.verify(movementService).create(any(Movement.class));
     }
+
+    @Test
+    public void createMovement_CurrencyNull() throws Exception {
+        MovementInsertDto movementInsertDto = new MovementInsertDto(null,
+                                                                    1,
+                                                                    MovementType.DEBIT,
+                                                                    -20.00
+        );
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/movements/")
+                                              .content(objectMapper.writeValueAsBytes(movementInsertDto))
+                                              .contentType(MediaType.APPLICATION_JSON))
+               .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void createMovement_MovementTypeNull() throws Exception {
+        MovementInsertDto movementInsertDto = new MovementInsertDto(Currency.DOLLARS,
+                                                                    1,
+                                                                    null,
+                                                                    -20.00
+        );
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/movements/")
+                                              .content(objectMapper.writeValueAsBytes(movementInsertDto))
+                                              .contentType(MediaType.APPLICATION_JSON))
+               .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void createMovement_AccountIdZero() throws Exception {
+        MovementInsertDto movementInsertDto = new MovementInsertDto(Currency.DOLLARS,
+                                                                    0,
+                                                                    MovementType.DEBIT,
+                                                                    -20.00
+        );
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/movements/")
+                                              .content(objectMapper.writeValueAsBytes(movementInsertDto))
+                                              .contentType(MediaType.APPLICATION_JSON))
+               .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void createMovement_AccountIdNull() throws Exception {
+        MovementInsertDto movementInsertDto = new MovementInsertDto(Currency.DOLLARS,
+                                                                    null,
+                                                                    MovementType.DEBIT,
+                                                                    -20.00
+        );
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/movements/")
+                                              .content(objectMapper.writeValueAsBytes(movementInsertDto))
+                                              .contentType(MediaType.APPLICATION_JSON))
+               .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void createMovement_AmountNull() throws Exception {
+        MovementInsertDto movementInsertDto = new MovementInsertDto(Currency.DOLLARS,
+                                                                    1,
+                                                                    MovementType.DEBIT,
+                                                                    null
+        );
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/movements/")
+                                              .content(objectMapper.writeValueAsBytes(movementInsertDto))
+                                              .contentType(MediaType.APPLICATION_JSON))
+               .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void createMovement_AmountZero() throws Exception {
+        MovementInsertDto movementInsertDto = new MovementInsertDto(Currency.DOLLARS,
+                                                                    1,
+                                                                    MovementType.DEBIT,
+                                                                    0.00
+        );
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/movements/")
+                                              .content(objectMapper.writeValueAsBytes(movementInsertDto))
+                                              .contentType(MediaType.APPLICATION_JSON))
+               .andExpect(status().is4xxClientError());
+    }
 }

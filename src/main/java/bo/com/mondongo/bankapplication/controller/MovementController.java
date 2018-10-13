@@ -8,6 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +29,9 @@ public class MovementController {
     @ApiOperation(value = "Make a movement", response = ResponseEntity.class)
     @PostMapping(produces = "application/json", consumes = "application/json")
     public ResponseEntity createAccount(@Valid @DTO(MovementInsertDto.class) Movement movement) {
+        if (movement.getAmount() == 0) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         return movementService.create(movement);
     }
 }
