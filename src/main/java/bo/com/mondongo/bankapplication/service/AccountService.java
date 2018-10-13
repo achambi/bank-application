@@ -4,10 +4,7 @@ import bo.com.mondongo.bankapplication.converter.AccountConverter;
 import bo.com.mondongo.bankapplication.dto.AccountDTO;
 import bo.com.mondongo.bankapplication.dto.AccountSimpleDTO;
 import bo.com.mondongo.bankapplication.entity.Account;
-import bo.com.mondongo.bankapplication.entity.Movement;
-import bo.com.mondongo.bankapplication.entity.MovementType;
 import bo.com.mondongo.bankapplication.repository.AccountRepository;
-import bo.com.mondongo.bankapplication.repository.MovementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -25,15 +22,16 @@ public class AccountService {
     private final AccountRepository accountRepository;
 
     private final AccountConverter accountConverter;
-    private final MovementRepository movementRepository;
+//    private final MovementRepository movementRepository;
 
     @Autowired
     public AccountService(@Qualifier("AccountRepository") AccountRepository accountRepository,
-                          @Qualifier("AccountConverter") AccountConverter accountConverter,
-                          @Qualifier("MovementRepository") MovementRepository movementRepository) {
+                          @Qualifier("AccountConverter") AccountConverter accountConverter
+                          // @Qualifier("MovementRepository") MovementRepository movementRepository
+    ) {
         this.accountRepository = accountRepository;
         this.accountConverter = accountConverter;
-        this.movementRepository = movementRepository;
+        //  this.movementRepository = movementRepository;
     }
 
     @Transactional
@@ -42,18 +40,18 @@ public class AccountService {
             account = accountRepository.save(account);
             Map<String, Object> response = new HashMap<>();
 
-            if (account.getBalance() > 0) {
-                Movement movement = new Movement();
-                movement.setAccount(account);
-                movement.setAmount(account.getBalance());
-                movement.setCurrency(account.getCurrency());
-                movement.setMovementType(MovementType.CREDIT);
-                movement.setCreatedAt(account.getCreatedAt());
-                movement.setEditedAt(account.getEditedAt());
-                movement.setActive(account.getActive());
-                movement = movementRepository.save(movement);
-                response.put("movementId", movement.getId());
-            }
+//            if (account.getBalance() > 0) {
+//                Movement movement = new Movement();
+//                movement.setAccount(account);
+//                movement.setAmount(account.getBalance());
+//                movement.setCurrency(account.getCurrency());
+//                movement.setMovementType(MovementType.CREDIT);
+//                movement.setCreatedAt(account.getCreatedAt());
+//                movement.setEditedAt(account.getEditedAt());
+//                movement.setActive(account.getActive());
+//                movement = movementRepository.save(movement);
+//                response.put("movementId", movement.getId());
+//            }
 
             response.put("id", account.getId());
 

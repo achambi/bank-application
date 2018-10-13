@@ -33,8 +33,8 @@ public class Account extends EntityBase implements Serializable {
     @Enumerated(EnumType.STRING)
     private Department department;
 
-    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
-    private List<Movement> movements;
+//    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
+//    private List<Movement> movements;
 
     public Integer getId() {
         return id;
@@ -68,13 +68,13 @@ public class Account extends EntityBase implements Serializable {
         this.currency = currency;
     }
 
-    public List<Movement> getMovements() {
-        return movements;
-    }
-
-    public void setMovements(List<Movement> movements) {
-        this.movements = movements;
-    }
+//    public List<Movement> getMovements() {
+//        return movements;
+//    }
+//
+//    public void setMovements(List<Movement> movements) {
+//        this.movements = movements;
+//    }
 
     public String getHolder() {
         return holder;

@@ -5,7 +5,6 @@ import bo.com.mondongo.bankapplication.dto.AccountDTO;
 import bo.com.mondongo.bankapplication.dto.AccountSimpleDTO;
 import bo.com.mondongo.bankapplication.entity.*;
 import bo.com.mondongo.bankapplication.repository.AccountRepository;
-import bo.com.mondongo.bankapplication.repository.MovementRepository;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,15 +30,17 @@ public class AccountServiceTest {
     @Mock
     private AccountConverter accountConverter;
 
-    @Mock
-    private MovementRepository movementRepository;
+//    @Mock
+//    private MovementRepository movementRepository;
 
     @InjectMocks
     private AccountService accountService;
 
     @After
     public void tearDown() {
-        verifyNoMoreInteractions(accountRepository, accountConverter, movementRepository);
+        verifyNoMoreInteractions(accountRepository, accountConverter
+//            , movementRepository
+        );
     }
 
     //region 1. create method
@@ -81,42 +82,77 @@ public class AccountServiceTest {
         verify(accountRepository, times(1)).save(eq(account));
     }
 
-    @Test
-    public void create_accountWithMovementCase() {
-        //Mock an account
-        Account account = new Account();
-        account.setNumber("");
-        account.setBalance(100.00);
-        account.setCurrency(Currency.DOLLARS);
-        account.setDepartment(Department.BENI);
-        account.setId(100);
-        when(accountRepository.save(eq(account))).thenReturn(account);
-
-        //MOCK a movement
-        Movement movement = new Movement();
-        movement.setId(100);
-        movement.setCurrency(Currency.DOLLARS);
-        movement.setAccount(account);
-        movement.setMovementType(MovementType.CREDIT);
-        movement.setAmount(100.00);
-
-        //ref equals to return a movement object. (Note.- Java is not a POO language)
-        when(movementRepository.save(refEq(movement, "id"))).thenReturn(movement);
-
-        ResponseEntity responseEntity = accountService.create(account);
-
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        Map result = (Map) (responseEntity.getBody());
-        assertEquals(account.getId(), result.get("id"));
-        assertEquals("202-06-000100", account.getNumber());
-
-        assertEquals(movement.getId(), result.get("movementId"));
-
-        //We need to validate 2 times because we need the correlative id to create the account number.
-        verify(accountRepository, times(2)).save(eq(account));
-        //We need to validate only save a movement.
-        verify(movementRepository, times(1)).save(refEq(movement, "id"));
-    }
+//    @Test
+//    public void create_accountWithMovementCase() {
+//        //Mock an account
+//        Account account = new Account();
+//        account.setNumber("");
+//        account.setBalance(100.00);
+//        account.setCurrency(Currency.DOLLARS);
+//        account.setDepartment(Department.BENI);
+//        account.setId(100);
+//        when(accountRepository.save(eq(account))).thenReturn(account);
+//
+//        //MOCK a movement
+//        Movement movement = new Movement();
+//        movement.setId(100);
+//        movement.setCurrency(Currency.DOLLARS);
+//        movement.setAccount(account);
+//        movement.setMovementType(MovementType.CREDIT);
+//        movement.setAmount(100.00);
+//
+//        //ref equals to return a movement object. (Note.- Java is not a POO language)
+//        when(movementRepository.save(refEq(movement, "id"))).thenReturn(movement);
+//
+//        ResponseEntity responseEntity = accountService.create(account);
+//
+//        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+//        Map result = (Map) (responseEntity.getBody());
+//        assertEquals(account.getId(), result.get("id"));
+//        assertEquals("202-06-000100", account.getNumber());
+//
+//        assertEquals(movement.getId(), result.get("movementId"));
+//
+//        //We need to validate 2 times because we need the correlative id to create the account number.
+//        verify(accountRepository, times(2)).save(eq(account));
+//        //We need to validate only save a movement.
+//        verify(movementRepository, times(1)).save(refEq(movement, "id"));
+//    }@Test
+//    public void create_accountWithMovementCase() {
+//        //Mock an account
+//        Account account = new Account();
+//        account.setNumber("");
+//        account.setBalance(100.00);
+//        account.setCurrency(Currency.DOLLARS);
+//        account.setDepartment(Department.BENI);
+//        account.setId(100);
+//        when(accountRepository.save(eq(account))).thenReturn(account);
+//
+//        //MOCK a movement
+//        Movement movement = new Movement();
+//        movement.setId(100);
+//        movement.setCurrency(Currency.DOLLARS);
+//        movement.setAccount(account);
+//        movement.setMovementType(MovementType.CREDIT);
+//        movement.setAmount(100.00);
+//
+//        //ref equals to return a movement object. (Note.- Java is not a POO language)
+//        when(movementRepository.save(refEq(movement, "id"))).thenReturn(movement);
+//
+//        ResponseEntity responseEntity = accountService.create(account);
+//
+//        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+//        Map result = (Map) (responseEntity.getBody());
+//        assertEquals(account.getId(), result.get("id"));
+//        assertEquals("202-06-000100", account.getNumber());
+//
+//        assertEquals(movement.getId(), result.get("movementId"));
+//
+//        //We need to validate 2 times because we need the correlative id to create the account number.
+//        verify(accountRepository, times(2)).save(eq(account));
+//        //We need to validate only save a movement.
+//        verify(movementRepository, times(1)).save(refEq(movement, "id"));
+//    }
 
     //endregion
 
