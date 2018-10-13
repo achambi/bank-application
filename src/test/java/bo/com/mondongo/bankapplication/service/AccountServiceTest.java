@@ -3,10 +3,7 @@ package bo.com.mondongo.bankapplication.service;
 import bo.com.mondongo.bankapplication.converter.AccountConverter;
 import bo.com.mondongo.bankapplication.dto.AccountDTO;
 import bo.com.mondongo.bankapplication.dto.AccountSimpleDTO;
-import bo.com.mondongo.bankapplication.entity.Account;
-import bo.com.mondongo.bankapplication.entity.Currency;
-import bo.com.mondongo.bankapplication.entity.Department;
-import bo.com.mondongo.bankapplication.entity.Movement;
+import bo.com.mondongo.bankapplication.entity.*;
 import bo.com.mondongo.bankapplication.repository.AccountRepository;
 import bo.com.mondongo.bankapplication.repository.MovementRepository;
 import org.junit.After;
@@ -100,7 +97,7 @@ public class AccountServiceTest {
         movement.setId(100);
         movement.setCurrency(Currency.DOLLARS);
         movement.setAccount(account);
-        movement.setMovementType("deposit");
+        movement.setMovementType(MovementType.CREDIT);
         movement.setAmount(100.00);
 
         //ref equals to return a movement object. (Note.- Java is not a POO language)

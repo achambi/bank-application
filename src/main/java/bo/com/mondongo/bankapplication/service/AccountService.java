@@ -5,6 +5,7 @@ import bo.com.mondongo.bankapplication.dto.AccountDTO;
 import bo.com.mondongo.bankapplication.dto.AccountSimpleDTO;
 import bo.com.mondongo.bankapplication.entity.Account;
 import bo.com.mondongo.bankapplication.entity.Movement;
+import bo.com.mondongo.bankapplication.entity.MovementType;
 import bo.com.mondongo.bankapplication.repository.AccountRepository;
 import bo.com.mondongo.bankapplication.repository.MovementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,7 @@ public class AccountService {
                 movement.setAccount(account);
                 movement.setAmount(account.getBalance());
                 movement.setCurrency(account.getCurrency());
-                movement.setMovementType("deposit");
+                movement.setMovementType(MovementType.CREDIT);
                 movement.setCreatedAt(account.getCreatedAt());
                 movement.setEditedAt(account.getEditedAt());
                 movement.setActive(account.getActive());

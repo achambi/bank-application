@@ -24,7 +24,8 @@ public class Movement extends EntityBase implements Serializable {
     private Account account;
 
     @Column(name = "movement_type", nullable = false)
-    private String movementType;
+    @Enumerated(EnumType.STRING)
+    private MovementType movementType;
 
     @Column(name = "amount", nullable = false, precision = 10, scale = 2)
     private Double amount;
@@ -53,11 +54,11 @@ public class Movement extends EntityBase implements Serializable {
         return account;
     }
 
-    public void setMovementType(String movementType) {
+    public void setMovementType(MovementType movementType) {
         this.movementType = movementType;
     }
 
-    public String getMovementType() {
+    public MovementType getMovementType() {
         return movementType;
     }
 
