@@ -5,6 +5,7 @@ import bo.com.mondongo.bankapplication.dto.AccountDTO;
 import bo.com.mondongo.bankapplication.dto.AccountSimpleDTO;
 import bo.com.mondongo.bankapplication.entity.Account;
 import bo.com.mondongo.bankapplication.entity.Movement;
+import bo.com.mondongo.bankapplication.entity.MovementType;
 import bo.com.mondongo.bankapplication.repository.AccountRepository;
 import bo.com.mondongo.bankapplication.repository.MovementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,7 @@ public class AccountService {
                 movement.setAccount(account);
                 movement.setAmount(account.getBalance());
                 movement.setCurrency(account.getCurrency());
-                movement.setMovementType("deposit");
+                movement.setMovementType(MovementType.CREDIT);
                 movement.setCreatedAt(account.getCreatedAt());
                 movement.setEditedAt(account.getEditedAt());
                 movement.setActive(account.getActive());
@@ -62,27 +63,6 @@ public class AccountService {
         } catch (DataIntegrityViolationException ex) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-    }
-
-    @Transactional
-    public ResponseEntity update(Account account) {
-        Map<String, Object> response = new HashMap<>();
-        Account currentAccount = accountRepository.findOne(account.getId());
-        if (currentAccount.getBalance() > 0) {
-            response.put("message", "Account balance is not zero");
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        }
-
-        account.createAccountNumber();
-        currentAccount.setHolder(account.getHolder());
-        currentAccount.setCurrency(account.getCurrency());
-        currentAccount.setDepartment(account.getDepartment());
-        currentAccount.setNumber(account.getNumber());
-        currentAccount.setEditedAt(account.getEditedAt());
-
-        accountRepository.save(currentAccount);
-        response.put("id", account.getId());
-        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     public List<AccountDTO> getAll() {
