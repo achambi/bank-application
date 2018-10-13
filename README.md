@@ -10,8 +10,8 @@ Esta aplicacion es un ejemplo pequeño de una aplicacion bancaria que tiene los 
             <br>CM: Codigo de moneda <b>201</b> para <b>BOLIVIANOS</b> y <b>202</b> para <b>DOLARES</b>.
             <br>CD: Codigo de departamento.
             <br>CORRELATIVO: Correlativo de 6 digitos Ej.: 000001.
-    * <b>DEPARTAMENTO:</b> Valores validos son: LA PAZ, ORURO, POTOSI, PANDO, SANTA CRUZ, 
-    BENI, COCHABAMBA, TARIJA, CHUQUISACA.                 
+    * <b>DEPARTAMENTO:</b> Valores validos son: 01-LA PAZ , 02-ORURO, 03-POTOSI, 04-PANDO, 05-SANTA CRUZ, 
+    06-BENI, 07-COCHABAMBA, 08-TARIJA, 09-CHUQUISACA.                 
     * <b>NOMBRE DEL TITULAR:</b> El titular de la cuenta es el primer nombre del cliente seguido de su apellido paterno (ANGEL CHAMBI).
     
     * <b>MONEDA:</b> Una cadena que tiene unicamente dos opciones BOLIVIANOS Y DOLARES (en mayusculas).

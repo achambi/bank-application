@@ -16,7 +16,8 @@ public class Movement extends EntityBase implements Serializable {
     private Integer id;
 
     @Column(name = "currency", nullable = false)
-    private String currency;
+    @Enumerated(EnumType.STRING)
+    private Currency currency;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", referencedColumnName = "id")
@@ -36,11 +37,11 @@ public class Movement extends EntityBase implements Serializable {
         return id;
     }
 
-    public void setCurrency(String currency) {
+    public void setCurrency(Currency currency) {
         this.currency = currency;
     }
 
-    public String getCurrency() {
+    public Currency getCurrency() {
         return currency;
     }
 

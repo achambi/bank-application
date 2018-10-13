@@ -13,24 +13,16 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor;
-
-import javax.persistence.EntityManager;
-import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.Collections;
 
 public class DTOModelMapper extends RequestResponseBodyMethodProcessor {
     private static final ModelMapper modelMapper = new ModelMapper();
 
-    private EntityManager entityManager;
-
-    public DTOModelMapper(ObjectMapper objectMapper, EntityManager entityManager) {
+    public DTOModelMapper(ObjectMapper objectMapper) {
         super(Collections.singletonList(new MappingJackson2HttpMessageConverter(objectMapper)));
-        this.entityManager = entityManager;
     }
 
     @Override
@@ -49,14 +41,7 @@ public class DTOModelMapper extends RequestResponseBodyMethodProcessor {
                                   NativeWebRequest webRequest,
                                   WebDataBinderFactory binderFactory) throws Exception {
         Object dto = super.resolveArgument(parameter, mavContainer, webRequest, binderFactory);
-        Object id = getEntityId(dto);
-        if (id == null) {
-            return modelMapper.map(dto, parameter.getParameterType());
-        } else {
-            Object persistedObject = entityManager.find(parameter.getParameterType(), id);
-            modelMapper.map(dto, persistedObject);
-            return persistedObject;
-        }
+        return modelMapper.map(dto, parameter.getParameterType());
     }
 
     @Override
@@ -71,19 +56,5 @@ public class DTOModelMapper extends RequestResponseBodyMethodProcessor {
             }
         }
         throw new RuntimeException();
-    }
-
-    private Object getEntityId(@NotNull Object dto) {
-        for (Field field : dto.getClass().getDeclaredFields()) {
-            if (field.getAnnotation(Id.class) != null) {
-                try {
-                    field.setAccessible(true);
-                    return field.get(dto);
-                } catch (IllegalAccessException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-        return null;
     }
 }

@@ -2,11 +2,13 @@ package bo.com.mondongo.bankapplication.service;
 
 import bo.com.mondongo.bankapplication.converter.AccountConverter;
 import bo.com.mondongo.bankapplication.dto.AccountDTO;
+import bo.com.mondongo.bankapplication.dto.AccountSimpleDTO;
 import bo.com.mondongo.bankapplication.entity.Account;
+import bo.com.mondongo.bankapplication.entity.Currency;
+import bo.com.mondongo.bankapplication.entity.Department;
 import bo.com.mondongo.bankapplication.entity.Movement;
 import bo.com.mondongo.bankapplication.repository.AccountRepository;
 import bo.com.mondongo.bankapplication.repository.MovementRepository;
-import javafx.beans.binding.When;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,27 +45,34 @@ public class AccountServiceTest {
         verifyNoMoreInteractions(accountRepository, accountConverter, movementRepository);
     }
 
+    //region 1. create method
     @Test
     public void create() {
         Account account = new Account();
-        account.setNumber("100-1-001");
         account.setBalance(0.00);
-        account.setCurrency("bolivianos");
+        account.setCurrency(Currency.BOLIVIANOS);
+        account.setHolder("Jhon Snow");
+        account.setDepartment(Department.LA_PAZ);
         account.setId(1);
         when(accountRepository.save(eq(account))).thenReturn(account);
         ResponseEntity responseEntity = accountService.create(account);
+
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         Map result = (Map) (responseEntity.getBody());
         assertEquals(account.getId(), result.get("id"));
-        verify(accountRepository, times(1)).save(eq(account));
+        assertEquals("201-01-000001", account.getNumber());
+        verify(accountRepository, times(2)).save(eq(account));
     }
 
+    /**
+     * Method to verify if exists a problem when an account is saved return a valid HTTP RESPONSE CODE.
+     */
     @Test
-    public void create_wrongCase() {
+    public void create_CaseDataIntegrityViolationException() {
         Account account = new Account();
         account.setNumber("100-1-001");
-        account.setBalance(200.00);
-        account.setCurrency("bolivianos");
+        account.setBalance(0.00);
+        account.setCurrency(Currency.BOLIVIANOS);
 
         //noinspection unchecked
         when(accountRepository.save(eq(account))).thenThrow(DataIntegrityViolationException.class);
@@ -76,41 +85,131 @@ public class AccountServiceTest {
     }
 
     @Test
-    public void create_accountMovementCase() {
+    public void create_accountWithMovementCase() {
+        //Mock an account
         Account account = new Account();
-        account.setNumber("100-2-001");
+        account.setNumber("");
         account.setBalance(100.00);
-        account.setCurrency("dollars");
-        account.setId(1);
+        account.setCurrency(Currency.DOLLARS);
+        account.setDepartment(Department.BENI);
+        account.setId(100);
         when(accountRepository.save(eq(account))).thenReturn(account);
+
+        //MOCK a movement
         Movement movement = new Movement();
-        movement.setId(1);
-        movement.setCurrency("dollars");
+        movement.setId(100);
+        movement.setCurrency(Currency.DOLLARS);
         movement.setAccount(account);
         movement.setMovementType("deposit");
         movement.setAmount(100.00);
+
+        //ref equals to return a movement object. (Note.- Java is not a POO language)
         when(movementRepository.save(refEq(movement, "id"))).thenReturn(movement);
+
         ResponseEntity responseEntity = accountService.create(account);
+
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         Map result = (Map) (responseEntity.getBody());
         assertEquals(account.getId(), result.get("id"));
+        assertEquals("202-06-000100", account.getNumber());
+
         assertEquals(movement.getId(), result.get("movementId"));
-        verify(accountRepository, times(1)).save(eq(account));
+
+        //We need to validate 2 times because we need the correlative id to create the account number.
+        verify(accountRepository, times(2)).save(eq(account));
+        //We need to validate only save a movement.
         verify(movementRepository, times(1)).save(refEq(movement, "id"));
     }
 
+    //endregion
+
+    //region 2. update method
+    @Test
+    public void update() {
+        Account account = new Account();
+        account.setBalance(0.00);
+        account.setHolder("Jhon Snow");
+        account.setDepartment(Department.CHUQUISACA);
+        account.setCurrency(Currency.DOLLARS);
+        account.setId(100);
+
+        when(accountRepository.findOne(account.getId())).thenReturn(account);
+
+        Account accountToUpdate = new Account();
+        accountToUpdate.setHolder("Robert Baratheon");
+        accountToUpdate.setDepartment(Department.LA_PAZ);
+        accountToUpdate.setCurrency(Currency.BOLIVIANOS);
+        accountToUpdate.setId(100);
+
+        ResponseEntity responseEntity = accountService.update(accountToUpdate);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        Map result = (Map) (responseEntity.getBody());
+        assertEquals(accountToUpdate.getId(), result.get("id"));
+        assertEquals("201-01-000100", accountToUpdate.getNumber());
+        assertEquals(accountToUpdate.getNumber(), account.getNumber());
+        assertEquals(account.getBalance(), 0.00, 0.00);
+        assertEquals(accountToUpdate.getCurrency(), account.getCurrency());
+        assertEquals(accountToUpdate.getDepartment(), account.getDepartment());
+        assertEquals(accountToUpdate.getHolder(), account.getHolder());
+
+        verify(accountRepository, times(1)).findOne(eq(account.getId()));
+        verify(accountRepository, times(1)).save(eq(account));
+    }
+
+    @Test
+    public void update_CaseBalanceNotZero() {
+        Account account = new Account();
+        account.setBalance(100.00);
+        account.setHolder("Jhon Snow");
+        account.setDepartment(Department.CHUQUISACA);
+        account.setCurrency(Currency.DOLLARS);
+        account.setId(1);
+
+        when(accountRepository.findOne(account.getId())).thenReturn(account);
+
+        Account accountToUpdate = new Account();
+        accountToUpdate.setHolder("Robert Baratheon");
+        accountToUpdate.setDepartment(Department.LA_PAZ);
+        accountToUpdate.setCurrency(Currency.BOLIVIANOS);
+        accountToUpdate.setId(1);
+
+        ResponseEntity responseEntity = accountService.update(accountToUpdate);
+
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        Map result = (Map) (responseEntity.getBody());
+        assertEquals("Account balance is not zero", result.get("message"));
+        verify(accountRepository, times(1)).findOne(eq(account.getId()));
+    }
+
+    //endregion
     @Test
     public void listAll() {
         List<Account> accountList = new ArrayList<>();
         when(accountRepository.findAll()).thenReturn(accountList);
         List<AccountDTO> accountDTOList = new ArrayList<>();
-        accountDTOList.add(new AccountDTO(1, "10001-1", 200.00, "bolivianos"));
+        accountDTOList.add(new AccountDTO(1, "10001-1", "Jhon Snow", 200.00, Currency.BOLIVIANOS));
         when(accountConverter.FromAccountToAccountDto(eq(accountList))).thenReturn(accountDTOList);
-        List<AccountDTO> accountResponseList = accountService.listAll();
+        List<AccountDTO> accountResponseList = accountService.getAll();
         assertNotNull(accountResponseList);
         assertEquals(accountDTOList, accountResponseList);
 
         verify(accountRepository, times(1)).findAll();
         verify(accountConverter, times(1)).FromAccountToAccountDto(eq(accountList));
+    }
+
+    @Test
+    public void getSimpleList() {
+        List<Account> accountList = new ArrayList<>();
+        when(accountRepository.findAll()).thenReturn(accountList);
+        List<AccountSimpleDTO> accountDTOList = new ArrayList<>();
+        accountDTOList.add(new AccountSimpleDTO(1, "10001-1"));
+        when(accountConverter.FromAccountToAccountSimpleDto(eq(accountList))).thenReturn(accountDTOList);
+        List<AccountSimpleDTO> accountResponseList = accountService.getSimpleList();
+        assertNotNull(accountResponseList);
+        assertEquals(accountDTOList, accountResponseList);
+
+        verify(accountRepository, times(1)).findAll();
+        verify(accountConverter, times(1)).FromAccountToAccountSimpleDto(eq(accountList));
     }
 }

@@ -5,7 +5,6 @@ import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Data
@@ -17,17 +16,25 @@ public class Account extends EntityBase implements Serializable {
     @Column(name = "id", unique = true, nullable = false)
     private Integer id;
 
-    @Column(name = "number", length = 10, nullable = false, unique = true)
+    @Column(name = "number", length = 13, unique = true)
     private String number;
 
     @Column(name = "balance", nullable = false, precision = 10, scale = 2)
     private Double balance;
 
-    @Column(name = "currency", length = 10, nullable = false)
-    private String currency;
+    @Column(name = "currency", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Currency currency;
 
-    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Movement> movements;
+    @Column(name = "holder", length = 30, nullable = false)
+    private String holder;
+
+    @Column(name = "department", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Department department;
+
+    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
+    private List<Movement> movements;
 
     public Integer getId() {
         return id;
@@ -41,7 +48,7 @@ public class Account extends EntityBase implements Serializable {
         return balance;
     }
 
-    public String getCurrency() {
+    public Currency getCurrency() {
         return currency;
     }
 
@@ -57,15 +64,37 @@ public class Account extends EntityBase implements Serializable {
         this.balance = balance;
     }
 
-    public void setCurrency(final String currency) {
+    public void setCurrency(final Currency currency) {
         this.currency = currency;
     }
 
-    public Set<Movement> getMovements() {
+    public List<Movement> getMovements() {
         return movements;
     }
 
-    public void setMovements(Set<Movement> movements) {
+    public void setMovements(List<Movement> movements) {
         this.movements = movements;
+    }
+
+    public String getHolder() {
+        return holder;
+    }
+
+    public void setHolder(String holder) {
+        this.holder = holder;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    public void createAccountNumber() {
+        this.number = this.getCurrency().getValue() + "-" +
+            this.getDepartment().getValue() + "-" +
+            String.format("%06d", this.id);
     }
 }
