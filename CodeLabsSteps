@@ -1,0 +1,9 @@
+NOTAS ENABLE ANOTATION PROCESSING para poder tener los getters y setters
+
+MOVEMENT JSON
+{
+       "currency":  "BOLIVIANOS",
+       "accountId": 1,
+       "movementType" : "DEBIT",
+       "amount": 1.00
+}
