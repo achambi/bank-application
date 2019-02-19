@@ -3,16 +3,13 @@ package bo.com.mondongo.bankapplication.dto;
 import bo.com.mondongo.bankapplication.entity.Currency;
 import bo.com.mondongo.bankapplication.entity.Department;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
-@SuppressWarnings({"unused", "FieldCanBeLocal"})
-@Getter
-@Setter
+@SuppressWarnings("unused")
 public class AccountInsertDTO extends DTOBase implements Serializable {
     @NotNull
     @ApiModelProperty(required = true, value = "initial balance in an account")
@@ -40,5 +37,37 @@ public class AccountInsertDTO extends DTOBase implements Serializable {
     }
 
     public AccountInsertDTO() {
+    }
+
+    public Double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Double balance) {
+        this.balance = balance;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
+
+    public String getHolder() {
+        return holder;
+    }
+
+    public void setHolder(String holder) {
+        this.holder = holder;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 }

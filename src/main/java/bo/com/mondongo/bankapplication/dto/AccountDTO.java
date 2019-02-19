@@ -3,16 +3,13 @@ package bo.com.mondongo.bankapplication.dto;
 import bo.com.mondongo.bankapplication.entity.Currency;
 import bo.com.mondongo.bankapplication.entity.Department;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
-@SuppressWarnings({"unused", "FieldCanBeLocal"})
-@Getter
-@Setter
+@SuppressWarnings("unused")
 public class AccountDTO extends DTOBase implements Serializable {
     @ApiModelProperty(value = "Account correlative id")
     private Integer id;
@@ -50,5 +47,53 @@ public class AccountDTO extends DTOBase implements Serializable {
     }
 
     public AccountDTO() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public Double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Double balance) {
+        this.balance = balance;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
+
+    public String getHolder() {
+        return holder;
+    }
+
+    public void setHolder(String holder) {
+        this.holder = holder;
     }
 }

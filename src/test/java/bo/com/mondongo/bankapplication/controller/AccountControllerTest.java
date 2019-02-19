@@ -53,7 +53,7 @@ public class AccountControllerTest extends TestCase {
 
     //region 1. create accounts
     @Test
-    public void createAccount() throws Exception {
+    public void createAccount() throws Exception    {
         AccountInsertDTO accountInsertDTO = new AccountInsertDTO("Daenerys Targaryen",
                                                                  20.00,
                                                                  Department.BENI,

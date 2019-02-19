@@ -1,15 +1,12 @@
 package bo.com.mondongo.bankapplication.dto;
 
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
-@SuppressWarnings({"unused", "FieldCanBeLocal"})
-@Getter
-@Setter
+@SuppressWarnings("unused")
 public class AccountSimpleDTO extends DTOBase implements Serializable {
     @ApiModelProperty(value = "Account correlative id")
     private Integer id;
@@ -25,5 +22,21 @@ public class AccountSimpleDTO extends DTOBase implements Serializable {
     }
 
     public AccountSimpleDTO() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
     }
 }
