@@ -53,7 +53,7 @@ public class AccountControllerTest extends TestCase {
 
     //region 1. create accounts
     @Test
-    public void createAccount() throws Exception {
+    public void createAccount() throws Exception    {
         AccountInsertDTO accountInsertDTO = new AccountInsertDTO("Daenerys Targaryen",
                                                                  20.00,
                                                                  Department.BENI,
@@ -142,70 +142,7 @@ public class AccountControllerTest extends TestCase {
     }
     //endregion
 
-    //region 2. update accounts
-    @Test
-    public void updateAccount() throws Exception {
-        AccountUpdateDTO accountUpdateDTO = new AccountUpdateDTO(1,
-                                                                 "Daenerys Targaryen Updated",
-                                                                 20.00,
-                                                                 Department.BENI,
-                                                                 Currency.BOLIVIANOS
-        );
-
-        mockMvc.perform(MockMvcRequestBuilders.put("/accounts/")
-                                              .content(objectMapper.writeValueAsBytes(accountUpdateDTO))
-                                              .contentType(MediaType.APPLICATION_JSON))
-               .andExpect(status().isOk());
-        Mockito.verify(accountService).update(any(Account.class));
-    }
-
-    @Test
-    public void updateAccount_CaseNullId() throws Exception {
-        AccountUpdateDTO accountUpdateDTO = new AccountUpdateDTO(null,
-                                                                 "Daenerys Targaryen Updated",
-                                                                 20.00,
-                                                                 Department.BENI,
-                                                                 Currency.BOLIVIANOS
-        );
-
-        mockMvc.perform(MockMvcRequestBuilders.put("/accounts/")
-                                              .content(objectMapper.writeValueAsBytes(accountUpdateDTO))
-                                              .contentType(MediaType.APPLICATION_JSON))
-               .andExpect(status().is4xxClientError());
-    }
-
-    @Test
-    public void updateAccount_CaseIdZero() throws Exception {
-        AccountUpdateDTO accountUpdateDTO = new AccountUpdateDTO(0,
-                                                                 "Daenerys Targaryen Updated",
-                                                                 20.00,
-                                                                 Department.BENI,
-                                                                 Currency.BOLIVIANOS
-        );
-
-        mockMvc.perform(MockMvcRequestBuilders.put("/accounts/")
-                                              .content(objectMapper.writeValueAsBytes(accountUpdateDTO))
-                                              .contentType(MediaType.APPLICATION_JSON))
-               .andExpect(status().is4xxClientError());
-    }
-
-    @Test
-    public void updateAccount_CaseNegativeId() throws Exception {
-        AccountUpdateDTO accountUpdateDTO = new AccountUpdateDTO(-1,
-                                                                 "Daenerys Targaryen Updated",
-                                                                 20.00,
-                                                                 Department.BENI,
-                                                                 Currency.BOLIVIANOS
-        );
-
-        mockMvc.perform(MockMvcRequestBuilders.put("/accounts/")
-                                              .content(objectMapper.writeValueAsBytes(accountUpdateDTO))
-                                              .contentType(MediaType.APPLICATION_JSON))
-               .andExpect(status().is4xxClientError());
-    }
-
-    //endregion
-
+    //region 2. list accounts
     @Test
     public void getAll() throws Exception {
         List<AccountDTO> accounts = Arrays.asList(
@@ -267,4 +204,6 @@ public class AccountControllerTest extends TestCase {
                .andExpect(MockMvcResultMatchers.jsonPath("$[2].number", Matchers.is("201-09-000003")));
         Mockito.verify(accountService).getSimpleList();
     }
+
+    //endregion
 }

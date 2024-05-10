@@ -30,12 +30,6 @@ public class AccountController {
         return accountService.create(account);
     }
 
-    @ApiOperation(value = "Create a account", response = ResponseEntity.class)
-    @PutMapping(produces = "application/json", consumes = "application/json")
-    public ResponseEntity updateAccount(@Valid @DTO(AccountUpdateDTO.class) Account account) {
-        return accountService.update(account);
-    }
-
     @ApiOperation(value = "View a list of accounts", response = List.class)
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
     public List<AccountDTO> getAll() {
